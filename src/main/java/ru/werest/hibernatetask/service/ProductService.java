@@ -1,15 +1,15 @@
 package ru.werest.hibernatetask.service;
 
 import org.springframework.stereotype.Service;
-import ru.werest.hibernatetask.repository.ProductRepository;
+import ru.werest.hibernatetask.repository.OrderRepository;
 
 import java.util.List;
 
 @Service
 public class ProductService {
-    private final ProductRepository repository;
+    private final OrderRepository repository;
 
-    public ProductService(ProductRepository repository) {
+    public ProductService(OrderRepository repository) {
         this.repository = repository;
     }
 

@@ -1,21 +1,19 @@
 package ru.werest.hibernatetask.repository;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import ru.werest.hibernatetask.dao.Person;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
-public class PersonRepository {
+public interface PersonRepository extends JpaRepository<Person, Long> {
+    List<Person> getPersonByCityLiving(String city);
 
-    @PersistenceContext
-    EntityManager entityManager;
+    List<Person> getPersonByAgeLessThanOrderByAgeAsc(Integer age);
 
-    public List<Person> getPersonsByCity(String city) {
-        return entityManager.createQuery("SELECT t FROM Person t WHERE t.cityLiving = :city")
-                .setParameter("city", city)
-                .getResultList();
-    }
+    Optional<Person> getPersonByNameAndSurname(String name, String surname);
+
+    Person getPersonByNameAndSurnameAndAge(String name, String surname, Integer age);
 }
