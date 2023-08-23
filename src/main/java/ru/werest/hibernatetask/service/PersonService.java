@@ -17,19 +17,19 @@ public class PersonService {
     }
 
     public List<Person> getPersonsByCity(String city) {
-        return repository.getPersonByCityLiving(city);
+        return repository.getPersonByCityLivingJPQL(city);
     }
 
     public List<Person> getPersonByAgeOrderAsc(Integer age) {
-        return repository.getPersonByAgeLessThanOrderByAgeAsc(age);
+        return repository.getPersonByAgeLessThanOrderByAgeAscJPQL(age);
     }
 
     public Optional<Person> getPersonByNameSurname(String name, String surname) {
-        return repository.getPersonByNameAndSurname(name, surname);
+        return repository.getPersonByNameAndSurnameJPQL(name, surname);
     }
 
     public void createPerson(PersonRequest request) {
-        Person person = repository.getPersonByNameAndSurnameAndAge(request.getName(), request.getSurname(), request.getAge());
+        Person person = repository.getPersonByNameAndSurnameAndAgeJPQL(request.getName(), request.getSurname(), request.getAge());
         if (person != null) {
             throw new RuntimeException("Персона существует!");
         } else {
@@ -45,7 +45,7 @@ public class PersonService {
     }
 
     public void updatePerson(PersonRequest request) {
-        Person person = repository.getPersonByNameAndSurnameAndAge(request.getName(), request.getSurname(), request.getAge());
+        Person person = repository.getPersonByNameAndSurnameAndAgeJPQL(request.getName(), request.getSurname(), request.getAge());
         if (person == null) {
             throw new RuntimeException("Персоны не существует. Сначала создайте!");
         }
@@ -59,7 +59,7 @@ public class PersonService {
     }
 
     public void deletePerson(PersonRequest request) {
-        Person person = repository.getPersonByNameAndSurnameAndAge(request.getName(), request.getSurname(), request.getAge());
+        Person person = repository.getPersonByNameAndSurnameAndAgeJPQL(request.getName(), request.getSurname(), request.getAge());
         if (person == null) {
             throw new RuntimeException("Персоны не существует. Сначала создайте!");
         }
