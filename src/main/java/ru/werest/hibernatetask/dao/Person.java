@@ -1,14 +1,12 @@
 package ru.werest.hibernatetask.dao;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 
 @Data
 @Entity
 @Table(name = "PERSONS", schema = "PUBLIC")
+@IdClass(ContactPerson.class)
 public class Person {
     @Id
     @Column(name = "name")
@@ -22,12 +20,9 @@ public class Person {
     @Column(name = "age")
     private Integer age;
 
-
-    @Id
     @Column(name = "phone_number", length = 10)
     private String phoneNumber;
 
-    @Id
     @Column(name = "city_of_living", length = 50)
     private String cityLiving;
 }

@@ -19,7 +19,7 @@ public class ProductRepository {
 
     public List<String> getProduct(String productName) {
         return entityManager
-                .createQuery(read("select.sql"), String.class)
+                .createNativeQuery(read("select.sql"), String.class)
                 .setParameter("productName", productName)
                 .getResultList();
     }

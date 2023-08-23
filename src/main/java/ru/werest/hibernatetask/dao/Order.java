@@ -3,6 +3,8 @@ package ru.werest.hibernatetask.dao;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.Date;
+
 @Data
 @Entity
 @Table(name = "ORDERS", schema = "PUBLIC")
@@ -12,7 +14,7 @@ public class Order {
     private Long id;
 
     @Column(name = "date", nullable = false)
-    private String name;
+    private Date name;
 
     @Column(name = "product_name", nullable = false)
     private String productName;
