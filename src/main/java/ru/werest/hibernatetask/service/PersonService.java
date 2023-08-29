@@ -3,8 +3,10 @@ package ru.werest.hibernatetask.service;
 import org.springframework.stereotype.Service;
 import ru.werest.hibernatetask.dao.Person;
 import ru.werest.hibernatetask.repository.PersonRepository;
+import ru.werest.hibernatetask.request.PersonRequest;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PersonService {
@@ -15,6 +17,53 @@ public class PersonService {
     }
 
     public List<Person> getPersonsByCity(String city) {
-        return repository.getPersonsByCity(city);
+        return repository.getPersonByCityLiving(city);
+    }
+
+    public List<Person> getPersonByAgeOrderAsc(Integer age) {
+        return repository.getPersonByAgeLessThanOrderByAgeAsc(age);
+    }
+
+    public Optional<Person> getPersonByNameSurname(String name, String surname) {
+        return repository.getPersonByNameAndSurname(name, surname);
+    }
+
+    public void createPerson(PersonRequest request) {
+        Person person = repository.getPersonByNameAndSurnameAndAge(request.getName(), request.getSurname(), request.getAge());
+        if (person != null) {
+            throw new RuntimeException("Персона существует!");
+        } else {
+            person = new Person();
+            person.setName(request.getName());
+            person.setSurname(request.getSurname());
+            person.setPhoneNumber(request.getPhoneNumber());
+            person.setAge(request.getAge());
+            person.setCityLiving(request.getCityLiving());
+
+            repository.save(person);
+        }
+    }
+
+    public void updatePerson(PersonRequest request) {
+        Person person = repository.getPersonByNameAndSurnameAndAge(request.getName(), request.getSurname(), request.getAge());
+        if (person == null) {
+            throw new RuntimeException("Персоны не существует. Сначала создайте!");
+        }
+        person.setName(request.getName());
+        person.setSurname(request.getSurname());
+        person.setPhoneNumber(request.getPhoneNumber());
+        person.setAge(request.getAge());
+        person.setCityLiving(request.getCityLiving());
+
+        repository.save(person);
+    }
+
+    public void deletePerson(PersonRequest request) {
+        Person person = repository.getPersonByNameAndSurnameAndAge(request.getName(), request.getSurname(), request.getAge());
+        if (person == null) {
+            throw new RuntimeException("Персоны не существует. Сначала создайте!");
+        }
+
+        repository.delete(person);
     }
 }

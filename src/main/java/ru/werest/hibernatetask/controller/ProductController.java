@@ -23,4 +23,6 @@ public class ProductController {
     public ResponseEntity<List<String>> getProduct(@RequestParam("name") String productName) {
         return ResponseEntity.ok(service.getProduct(productName));
     }
+
+
 }
