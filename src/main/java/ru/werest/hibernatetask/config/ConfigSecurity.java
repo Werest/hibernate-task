@@ -3,6 +3,7 @@ package ru.werest.hibernatetask.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -15,6 +16,7 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity(securedEnabled = true, jsr250Enabled = true)
 public class ConfigSecurity {
 
     @Bean
@@ -28,7 +30,6 @@ public class ConfigSecurity {
                 .csrf(AbstractHttpConfigurer::disable)
                 .formLogin(Customizer.withDefaults())
                 .authorizeHttpRequests((request) -> request
-                        .requestMatchers("/person/**").hasRole("PERSON")
                         .requestMatchers("/products/**").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults());
@@ -43,13 +44,44 @@ public class ConfigSecurity {
 
         manager.createUser(User.withUsername("user")
                 .password(passwordEncoder().encode("user"))
-                .roles("PERSON")
+                .roles("PERSON", "READ")
                 .build());
 
         manager.createUser(User.withUsername("admin")
                 .password(passwordEncoder().encode("admin"))
                 .roles("ADMIN")
                 .build());
+
+        manager.createUser(User.withUsername("ivan")
+                .password(passwordEncoder().encode("ivan"))
+                .roles("READ")
+                .build());
+
+        manager.createUser(User.withUsername("vasua")
+                .password(passwordEncoder().encode("vasua"))
+                .roles("WRITE")
+                .build());
+
+        manager.createUser(User.withUsername("kolya")
+                .password(passwordEncoder().encode("kolya"))
+                .roles("DELETE")
+                .build());
+
+        manager.createUser(User.withUsername("liana")
+                .password(passwordEncoder().encode("liana"))
+                .roles("WRITE", "DELETE")
+                .build());
+
+        manager.createUser(User.withUsername("anna")
+                .password(passwordEncoder().encode("anna"))
+                .roles("READ", "DELETE")
+                .build());
+
+        manager.createUser(User.withUsername("vilada")
+                .password(passwordEncoder().encode("vilada"))
+                .roles("WRITE", "READ")
+                .build());
+
 
         return manager;
     }
